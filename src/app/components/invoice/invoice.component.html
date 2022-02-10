@@ -1,0 +1,61 @@
+<div class="component-container">
+  <h2>{{invoice && invoice.id ? 'Updating' : 'Creating'}} invoice</h2>
+  <div class="form-container">
+    <dx-form class="form" [formData]="invoice">
+      <dxi-item itemType="group">
+        <dxi-item
+          dataField="id"
+          editorType="dxTextBox"
+          disabled="true"
+          [label]="{text: 'Invoice identifier'}"
+        ></dxi-item>
+        <dxi-item
+          dataField="processingStatusId"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: processingStatuses,
+            displayExpr: 'name',
+            valueExpr: 'id',
+            disabled: !(invoice && invoice.id)
+          }"
+          [label]="{text: 'Processing status'}"
+        >
+        </dxi-item>
+        <dxi-item
+          dataField="paymentWayId"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: paymentWays,
+            displayExpr: 'name',
+            valueExpr: 'id'
+          }"
+          [label]="{text: 'Payment Way'}"
+        ></dxi-item>
+        <dxi-item
+          [label]="{text: 'Creation date'}"
+          dataField="creationDate"
+          editorType="dxDateBox"
+        ></dxi-item>
+        <dxi-item
+          [label]="{text: 'Amount'}"
+          dataField="amount"
+          editorType="dxNumberBox"
+          [editorOptions]="{ format: '$ #,##0.##' }"
+        ></dxi-item>
+      </dxi-item>
+
+    </dx-form>
+    <div class="button-bar">
+      <dx-button
+        type="success"
+        text="{{ invoice && invoice.id  ? 'Update' : 'Create'}}"
+        (onClick)="processButtonClickHandler()"
+      ></dx-button>
+      <dx-button
+        type="danger"
+        text="Close"
+        (onClick)="closeButtonClickHandler()"
+      ></dx-button>
+    </div>
+  </div>
+</div>
