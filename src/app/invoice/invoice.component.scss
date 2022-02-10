@@ -1,0 +1,22 @@
+.component-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  //height: 100vh;
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+
+    .form {
+      margin-top: 30px;
+      width: 500px;
+    }
+
+    .button-bar {
+      margin-top: 30px;
+      align-self: flex-end;
+    }
+  }
+}

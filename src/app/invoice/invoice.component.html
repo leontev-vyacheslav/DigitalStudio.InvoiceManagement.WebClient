@@ -1,0 +1,31 @@
+<div class="component-container">
+  <div class="form-container">
+    <dx-form class="form">
+      <dxi-item itemType="group">
+        <dxi-item
+          [label]="{text: 'Processing status'}"
+          dataField="ProcessingStatusId"
+          disabled="true">
+        </dxi-item>
+        <dxi-item
+          dataField="PaymentWayId"
+          editorType="dxSelectBox"
+          [label]="{text: 'Payment Way'}"
+        ></dxi-item>
+        <dxi-item
+          [label]="{text: 'Creation date'}"
+          dataField="CreationDate"
+          editorType="dxDateBox"
+          [editorOptions]="{ width: '100%' }"
+        ></dxi-item>
+      </dxi-item>
+    </dx-form>
+    <div class="button-bar">
+      <dx-button
+        id="create-button"
+        text="Create invoice"
+        (onClick)="createButtonClickHandler()"
+      ></dx-button>
+    </div>
+  </div>
+</div>

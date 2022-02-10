@@ -31,6 +31,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/devextreme/dist/css/dx.material.orange.dark.css",
               "src/styles.scss"
             ],
             "scripts": []
