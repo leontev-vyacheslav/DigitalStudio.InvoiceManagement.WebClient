@@ -49,12 +49,12 @@
       <dx-button
         type="success"
         text="{{ invoice && invoice.id  ? 'Update' : 'Create'}}"
-        (onClick)="processButtonClickHandler()"
+        (onClick)="onProcessButtonClick()"
       ></dx-button>
       <dx-button
         type="danger"
         text="Close"
-        (onClick)="closeButtonClickHandler()"
+        (onClick)="onCloseButtonClick()"
       ></dx-button>
     </div>
   </div>

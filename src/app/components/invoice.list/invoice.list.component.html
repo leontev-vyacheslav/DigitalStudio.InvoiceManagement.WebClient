@@ -1,0 +1,68 @@
+<div class="component-container">
+  <h2>Invoice List</h2>
+  <div class="grid-container">
+    <dx-data-grid
+      #invoiceListGrid
+      id="invoice-list-grid"
+      keyExpr="id"
+      class="grid"
+      [dataSource]="dataSource!"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [showBorders]="true"
+      [focusedRowEnabled]="true"
+      (onRowDblClick)="onRowDblClickHandler($event)"
+      (onFocusedRowChanged)="onFocusedRowChanged($event)">
+    >
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showInfo]="true"
+      ></dxo-pager>
+      <dxi-column
+        dataField="amount"
+        caption="Amount"
+        dataType="number"
+        format="currency"
+        alignment="left"
+        width="150"
+      ></dxi-column>
+      <dxi-column
+        dataField="creationDate"
+        caption="Creation date"
+        dataType="date"
+        width="150"
+      ></dxi-column>
+      <dxi-column
+        dataField="changeDate"
+        caption="Change date"
+        dataType="date"
+        width="150"
+      ></dxi-column>
+      <dxi-column
+        dataField="paymentWay.name"
+        caption="Payment way"
+        dataType="string"
+        width="150"
+      ></dxi-column>
+      <dxi-column
+        dataField="processingStatus.name"
+        caption="Processing status"
+        dataType="string"
+      ></dxi-column>
+    </dx-data-grid>
+    <div class="button-bar">
+      <dx-button
+        type="success"
+        text="New"
+        (onClick)="onNewButtonClick()"
+      ></dx-button>
+      <dx-button
+        type="danger"
+        text="Delete"
+        (onClick)="onDeleteButtonClick()"
+      ></dx-button>
+    </div>
+  </div>
+
+</div>

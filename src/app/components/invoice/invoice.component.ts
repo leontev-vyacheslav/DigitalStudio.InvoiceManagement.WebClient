@@ -6,11 +6,10 @@ import { DictionaryModel } from '../../models/dictionary.model';
 import notify from 'devextreme/ui/notify';
 import { forkJoin } from 'rxjs';
 
-
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
-  styleUrls: ['./invoice.component.scss']
+  styleUrls: ['../../app.component.scss', './invoice.component.scss']
 })
 export class InvoiceComponent implements OnInit {
 
@@ -30,16 +29,16 @@ export class InvoiceComponent implements OnInit {
     forkJoin([
       this.dataService.getDictionary('PaymentWay'),
       this.dataService.getDictionary('ProcessingStatus')
-    ]).subscribe(r => {
-      this.paymentWays = r[0];
-      this.processingStatuses = r[1];
+    ]).subscribe(next => {
+      this.paymentWays = next[0];
+      this.processingStatuses = next[1];
     });
 
     if (id) {
       this.dataService
         .getInvoice(id)
-        .subscribe(i => {
-          this.invoice = i;
+        .subscribe(next => {
+          this.invoice = next;
         });
     } else {
       const now = new Date();
@@ -53,22 +52,22 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-  async processButtonClickHandler() {
+  public onProcessButtonClick() {
     if (this.invoice) {
       this.dataService.postInvoice(this.invoice)
-        .subscribe(invoice => {
-          debugger
-          if(invoice) {
-            this.invoice = invoice;
+        .subscribe(async next => {
+          if(next) {
+            this.invoice = next;
             notify('Invoice was created successfully!', 'info', 1000);
           } else {
             notify('Invoice was not created!', 'error', 1000);
           }
+          await this.router.navigate(['/'], {});
         });
     }
   }
 
-  closeButtonClickHandler() {
-
+  public async onCloseButtonClick(): Promise<void> {
+    await this.router.navigate(['/'], {});
   }
 }

@@ -24,7 +24,7 @@ export class DataService {
       params: new HttpParams({
         fromObject: {
           no: 1,
-          size: 3,
+          size: 100,
         }
       }),
     }).pipe(
@@ -35,6 +35,11 @@ export class DataService {
   public postInvoice(model: InvoiceModel): Observable<InvoiceModel> {
     return this.httpClient
       .post<InvoiceModel>(`${environment.apiEndpoint}/invoices`, model);
+  }
+
+  public deleteInvoice(id: string): Observable<InvoiceModel> {
+    return this.httpClient
+      .delete<InvoiceModel>(`${environment.apiEndpoint}/invoices/${id}`);
   }
 
   public getDictionary(name: string): Observable<DictionaryModel[] | null> {
