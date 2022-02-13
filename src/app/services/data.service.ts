@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { InvoiceModel } from '../models/invoice.model';
 import { environment } from '../../environments/environment';
 import { DictionaryModel } from '../models/dictionary.model';
+import notify from 'devextreme/ui/notify';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
@@ -23,9 +24,15 @@ export class DataService {
     return this.httpClient
       .get<InvoiceModel>(`${environment.apiEndpoint}/invoices/${id}`)
       .pipe(
-        catchError(_ => of(null))
+        catchError(_ => {
+          this.errorNotify();
+
+          return of(null);
+        })
       );
   }
+
+  private errorNotify = () => notify('An error occurred during the http-request.', 'error', 3000);
 
   public getInvoiceList(): Observable<InvoiceModel[] | null> {
     return this.httpClient.get<InvoiceModel[]>(`${environment.apiEndpoint}/invoices/list`, {
@@ -36,25 +43,47 @@ export class DataService {
         }
       }),
     }).pipe(
-      catchError(_ => of(null))
+      catchError(_ => {
+        this.errorNotify();
+
+        return of(null);
+      })
     );
   }
 
-  public postInvoice(model: InvoiceModel): Observable<InvoiceModel> {
+  public postInvoice(model: InvoiceModel): Observable<InvoiceModel | null> {
     return this.httpClient
-      .post<InvoiceModel>(`${environment.apiEndpoint}/invoices`, model);
+      .post<InvoiceModel>(`${environment.apiEndpoint}/invoices`, model)
+      .pipe(
+        catchError(_ => {
+          this.errorNotify();
+
+          return of(null);
+        })
+      );
   }
 
-  public deleteInvoice(id: string): Observable<InvoiceModel> {
+  public deleteInvoice(id: string): Observable<InvoiceModel | null> {
     return this.httpClient
-      .delete<InvoiceModel>(`${environment.apiEndpoint}/invoices/${id}`);
+      .delete<InvoiceModel>(`${environment.apiEndpoint}/invoices/${id}`)
+      .pipe(
+        catchError(_ => {
+          this.errorNotify();
+
+          return of(null);
+        })
+      );
   }
 
   public getDictionary(name: string): Observable<DictionaryModel[] | null> {
     return this.httpClient
       .get<DictionaryModel[]>(`${environment.apiEndpoint}/dictionaries`, { params: { name: name } })
       .pipe(
-        catchError(_ => of(null))
+        catchError(_ => {
+          this.errorNotify();
+
+          return of(null);
+        })
       );
   }
 }

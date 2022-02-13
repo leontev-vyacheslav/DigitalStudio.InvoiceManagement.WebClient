@@ -72,6 +72,4 @@ export class InvoiceListComponent implements OnInit {
       await this.router.navigate(['/invoice'], { queryParams: { id: invoice.id } });
     }
   }
-
-
 }
