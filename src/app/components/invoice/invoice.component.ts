@@ -62,13 +62,16 @@ export class InvoiceComponent implements OnInit {
           } else {
             notify('Invoice was not created!', 'error', 1000);
           }
-          await this.router.navigate(['/']);
           this.dataService.setCurrentInvoice(next);
+          await this.router.navigate(['/']);
         });
     }
   }
 
   public async onCloseButtonClick(): Promise<void> {
-    await this.router.navigate(['/'], {});
+    if(this.invoice && this.invoice.id) {
+      this.dataService.setCurrentInvoice(this.invoice);
+    }
+    await this.router.navigate(['/'],);
   }
 }

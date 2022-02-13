@@ -22,13 +22,6 @@ export class InvoiceListComponent implements OnInit {
     dataService.getInvoiceList().subscribe(next => {
       this.dataSource = next;
     })
-    this.route.params.subscribe(async params => {
-        if (this.dataGrid) {
-          debugger;
-          await this.dataGrid.instance.selectRows([params['id']], true);
-        }
-      }
-    )
   }
 
   ngOnInit(): void {
@@ -37,10 +30,14 @@ export class InvoiceListComponent implements OnInit {
 
   public onContentReady() {
     this.dataService.currentInvoice$.subscribe(async next => {
-      if(next && this.dataGrid) {
-        await this.dataGrid.instance.navigateToRow(next.id);
-        this.dataGrid.focusedRowKey = next.id;
-        this.dataService.setCurrentInvoice(null);
+      if (next && this.dataGrid) {
+        try {
+          await this.dataGrid.instance.navigateToRow(next.id);
+          this.dataGrid.focusedRowKey = next.id;
+          this.dataService.setCurrentInvoice(null);
+        } catch {
+          this.dataGrid.focusedRowKey = null;
+        }
       }
     });
   }
