@@ -13,7 +13,8 @@
       [showBorders]="true"
       [focusedRowEnabled]="true"
       (onRowDblClick)="onRowDblClickHandler($event)"
-      (onFocusedRowChanged)="onFocusedRowChanged($event)">
+      (onFocusedRowChanged)="onFocusedRowChanged($event)"
+      (onContentReady)="onContentReady()"
     >
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager
@@ -47,9 +48,17 @@
       ></dxi-column>
       <dxi-column
         dataField="processingStatus.name"
+        cellTemplate="processingStatusCellTemplate"
         caption="Processing status"
         dataType="string"
+        alignment="right"
       ></dxi-column>
+      <div *dxTemplate="let d of 'processingStatusCellTemplate'" style="display: flex; justify-content: flex-end">
+        <div
+          class="dx-badge dx-badge-{{d.value}}"
+          style="text-align: center; width: 100px;"
+        >{{ d.value }}</div>
+      </div>
     </dx-data-grid>
     <div class="button-bar">
       <dx-button

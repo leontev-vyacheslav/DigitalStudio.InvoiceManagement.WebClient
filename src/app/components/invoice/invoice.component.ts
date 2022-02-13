@@ -62,7 +62,8 @@ export class InvoiceComponent implements OnInit {
           } else {
             notify('Invoice was not created!', 'error', 1000);
           }
-          await this.router.navigate(['/'], {});
+          await this.router.navigate(['/']);
+          this.dataService.setCurrentInvoice(next);
         });
     }
   }

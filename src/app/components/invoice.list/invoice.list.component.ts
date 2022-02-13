@@ -22,10 +22,27 @@ export class InvoiceListComponent implements OnInit {
     dataService.getInvoiceList().subscribe(next => {
       this.dataSource = next;
     })
+    this.route.params.subscribe(async params => {
+        if (this.dataGrid) {
+          debugger;
+          await this.dataGrid.instance.selectRows([params['id']], true);
+        }
+      }
+    )
   }
 
   ngOnInit(): void {
 
+  }
+
+  public onContentReady() {
+    this.dataService.currentInvoice$.subscribe(async next => {
+      if(next && this.dataGrid) {
+        await this.dataGrid.instance.navigateToRow(next.id);
+        this.dataGrid.focusedRowKey = next.id;
+        this.dataService.setCurrentInvoice(null);
+      }
+    });
   }
 
   public async onNewButtonClick(): Promise<void> {
@@ -33,21 +50,21 @@ export class InvoiceListComponent implements OnInit {
   }
 
   public async onDeleteButtonClick(): Promise<void> {
-    if(this.dataGrid && this.focusedRowData) {
-      if(await confirm('Do you want to remove the selected invoice?', 'Confirm'))
-      this.dataService.deleteInvoice(`${this.focusedRowData.id}`).subscribe(next => {
-        if(next) {
-          notify(`Invoice ${next.id} was successfully removed`);
-          this.dataService.getInvoiceList().subscribe(next => {
-            this.dataSource = next;
-          })
-        }
-      });
+    if (this.dataGrid && this.focusedRowData) {
+      if (await confirm('Do you want to remove the selected invoice?', 'Confirm'))
+        this.dataService.deleteInvoice(`${this.focusedRowData.id}`).subscribe(next => {
+          if (next) {
+            notify(`Invoice ${next.id} was successfully removed`);
+            this.dataService.getInvoiceList().subscribe(next => {
+              this.dataSource = next;
+            })
+          }
+        });
     }
   }
 
-  public onFocusedRowChanged (event: any): void {
-    if(event.row.rowType === 'data') {
+  public onFocusedRowChanged(event: any): void {
+    if (event.row.rowType === 'data') {
       this.focusedRowData = event.row.data as InvoiceModel;
     }
   }
@@ -58,4 +75,6 @@ export class InvoiceListComponent implements OnInit {
       await this.router.navigate(['/invoice'], { queryParams: { id: invoice.id } });
     }
   }
+
+
 }

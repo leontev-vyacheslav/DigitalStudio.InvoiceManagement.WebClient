@@ -8,4 +8,21 @@
       width: 900px;
     }
   }
+    .dx-badge {
+      padding: 5px 5px;
+      border-radius: 8px;
+      color: white;
+    }
+
+    .dx-badge-New {
+      background-color: #8bc34a;
+    }
+
+    .dx-badge-Canceled {
+      background-color: #f44336;
+    }
+
+    .dx-badge-Paid {
+      background-color: #009688;
+    }
 }

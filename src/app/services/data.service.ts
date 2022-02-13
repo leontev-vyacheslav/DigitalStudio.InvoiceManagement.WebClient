@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
-import { catchError, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { InvoiceModel } from '../models/invoice.model';
 import { environment } from '../../environments/environment';
@@ -8,12 +8,20 @@ import { DictionaryModel } from '../models/dictionary.model';
 @Injectable({ providedIn: 'root' })
 export class DataService {
 
+  private currentInvoiceSource = new BehaviorSubject<InvoiceModel | null>(null);
+
+  public currentInvoice$ = this.currentInvoiceSource.asObservable();
+
+  setCurrentInvoice(invoice: InvoiceModel | null) {
+    this.currentInvoiceSource.next(invoice);
+  }
+
   constructor(private httpClient: HttpClient) {
   }
 
   public getInvoice(id: string): Observable<InvoiceModel | null> {
     return this.httpClient
-      .get<InvoiceModel>(`${environment.apiEndpoint}/invoices`, { params: { id: id } })
+      .get<InvoiceModel>(`${environment.apiEndpoint}/invoices/${id}`)
       .pipe(
         catchError(_ => of(null))
       );
