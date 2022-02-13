@@ -21,7 +21,7 @@ $main-bg-color: #27232e;
   }
 }
 
-.toolbar {
+.topbar {
   padding: 10px 0;
   background-color: $main-bg-color;
 
@@ -33,7 +33,7 @@ $main-bg-color: #27232e;
     width: 100%;
   }
 
-  .toolbar-wrapper {
+  .topbar-wrapper {
     display: flex;
     align-items: center;
 
